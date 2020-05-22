@@ -144,4 +144,5 @@ function calculateWinner(squares) {
     }
   }
   return null;
+
 }
