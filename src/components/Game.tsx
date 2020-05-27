@@ -1,58 +1,8 @@
 import React, { useState } from "react";
-import "./index.css";
-
-interface BoardProps {
-  squares: ISquare[];
-  onClick: (i: number) => void;
-}
-interface SquareProps {
-  value: ISquare;
-  onClick: () => void;
-}
-interface HistoryElement {
-  squares: ISquare[];
-}
-type History = HistoryElement[];
-type ISquare = "X" | "O" | null;
-
-const Square: React.FC<SquareProps> = ({value, onClick}) => {
-  return (
-    <button className="square" onClick={onClick}>
-      {value}
-    </button>
-  );
-};
-
-const Board: React.FC<BoardProps> = ({ squares, onClick}) => {
-  const renderSquare = (i: number) => {
-    return(
-        <Square
-            value={squares[i]}
-            onClick={() => onClick(i)}
-        />
-    );
-  };
-
-  return (
-      <div>
-        <div className="board-row">
-          {renderSquare(0)}
-          {renderSquare(1)}
-          {renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {renderSquare(3)}
-          {renderSquare(4)}
-          {renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {renderSquare(6)}
-          {renderSquare(7)}
-          {renderSquare(8)}
-        </div>
-      </div>
-  );
-};
+import "../index.css";
+import {History, ISquare} from "../domain/entity";
+import {calculateWinner} from "../domain/services";
+import Board from "./Board";
 
 
 const Game = () => {
@@ -120,26 +70,3 @@ const Game = () => {
 };
 
 export default Game;
-// ========================================
-
-
-function calculateWinner(squares: ISquare[]) {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
-    }
-  }
-  return null;
-
-}
