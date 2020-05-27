@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../index.css";
 import {ISquare} from "../domain/entity";
 import Square from "./Square";
 

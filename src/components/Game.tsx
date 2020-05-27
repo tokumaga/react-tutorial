@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../index.css";
 import {History, ISquare} from "../domain/entity";
 import {calculateWinner} from "../domain/services";
 import Board from "./Board";
