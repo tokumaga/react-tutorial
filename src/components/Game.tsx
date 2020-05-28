@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import {History, ISquare, Histories} from "../domain/entity";
+import {ISquare, Histories} from "../domain/entity";
 import {calculateWinner, getStatus} from "../domain/services";
 import Board from "./Board";
+import Move from "./Move";
 
 
 const Game = () => {
@@ -34,16 +35,7 @@ const Game = () => {
   const current = Histories[stepNumber];
   const winner = calculateWinner(current.squares);
 
-  const moves = Histories.map((step, move) => {
-    const desc = move ?
-        'Go to move #' + move :
-        'Go to game start';
-    return (
-        <li key={move}>
-          <button onClick={() => jumpTo(move)}>{desc}</button>
-        </li>
-    );
-  });
+
 
   const status = getStatus(winner, xIsNext);
 
@@ -57,7 +49,7 @@ const Game = () => {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <Move histories={Histories} jumpTo={jumpTo}/>
         </div>
       </div>
   );
