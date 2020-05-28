@@ -4,7 +4,6 @@ import {calculateWinner, getStatus} from "../domain/services";
 import Board from "./Board";
 import Move from "./Move";
 
-
 const Game = () => {
   const [Histories, setHistory] = useState<Histories>([
     { squares: Array<ISquare>(9).fill(null)}
@@ -35,21 +34,20 @@ const Game = () => {
   const current = Histories[stepNumber];
   const winner = calculateWinner(current.squares);
 
-
-
   const status = getStatus(winner, xIsNext);
 
   return (
       <div className="game">
         <div className="game-board">
           <Board
-              squares={current.squares}
-              onClick={handleClick}
+            squares={current.squares} onClick={handleClick}
           />
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <Move histories={Histories} jumpTo={jumpTo}/>
+          <Move 
+            histories={Histories} jumpTo={jumpTo}
+          />
         </div>
       </div>
   );
