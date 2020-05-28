@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import {History, ISquare} from "../domain/entity";
-import {calculateWinner} from "../domain/services";
+import {History, ISquare, Histories} from "../domain/entity";
+import {calculateWinner, getStatus} from "../domain/services";
 import Board from "./Board";
 
 
 const Game = () => {
-  const [history, setHistory] = useState<History>([
+  const [Histories, setHistory] = useState<Histories>([
     { squares: Array<ISquare>(9).fill(null)}
   ]);
 
@@ -13,7 +13,7 @@ const Game = () => {
   const [stepNumber, setStepNumber] = useState(0);
 
   const handleClick = (i: number) => {
-    const _history = history.slice(0, stepNumber + 1);
+    const _history = Histories.slice(0, stepNumber + 1);
     const current = _history[_history.length - 1];
     const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
@@ -21,8 +21,8 @@ const Game = () => {
     }
     squares[i] = xIsNext ? 'X' : 'O';
 
-    setHistory(history.concat([{ squares }]));
-    setStepNumber(history.length);
+    setHistory(Histories.concat([{ squares }]));
+    setStepNumber(Histories.length);
     setXIsNext(!xIsNext);
   };
 
@@ -31,10 +31,10 @@ const Game = () => {
     setXIsNext(step % 2 === 0);
   };
 
-  const current = history[stepNumber];
+  const current = Histories[stepNumber];
   const winner = calculateWinner(current.squares);
 
-  const moves = history.map((step, move) => {
+  const moves = Histories.map((step, move) => {
     const desc = move ?
         'Go to move #' + move :
         'Go to game start';
@@ -45,12 +45,7 @@ const Game = () => {
     );
   });
 
-  let status;
-  if (winner) {
-    status = 'Winner: ' + winner;
-  } else {
-    status = 'Next player: ' + (xIsNext ? 'X' : 'O');
-  }
+  const status = getStatus(winner, xIsNext);
 
   return (
       <div className="game">
