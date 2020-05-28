@@ -18,4 +18,14 @@ export function calculateWinner(squares: ISquare[]) {
     }
   }
   return null;
-}
+};
+
+export const getStatus = (winner: ISquare, xIsNext: boolean) => {
+  if (winner) {
+    return `Winner: ${winner}`;
+  }
+  else {
+    const nextPlayer = xIsNext ? 'X': 'O';
+    return `Next player: ${nextPlayer}`;
+  }
+};
